@@ -5,6 +5,58 @@
 - **프로젝트명**: dokseoclub
 - **목표**: 오랫동안 오프라인으로 진행해 온 독서 모임의 활동을 기록하고 공유할 수 있는 온라인 공간을 구축.
 
+### **프로젝트 평가 및 진행 계획 제안**
+
+**1. 프로젝트 평가:**
+
+*   **장점**:
+    *   명확한 목표와 사용자층 (독서 모임 회원).
+    *   구체적이고 독창적인 기능 아이디어 (회원별 컬러 인덱싱, 책 전시 UI, 투표 시스템 등).
+    *   SvelteKit 풀스택 사용으로 개발 효율성 기대.
+    *   개인 서버 운영 및 도메인 보유로 호스팅 비용 절감 및 완전한 제어 가능.
+    *   향후 Rust 백엔드 전환 고려는 장기적인 확장성을 보여줍니다.
+*   **고려사항**:
+    *   **기능 복잡성**: 온라인 서점 연동 (웹 스크래핑/API), OCR, 오디오 요약 등은 상당한 개발 노력이 필요하며, 초기 MVP(Minimum Viable Product) 범위에서 제외하거나 추후 개발로 미루는 것이 좋습니다.
+    *   **UI/UX 구현**: 제안하신 시각적 요소들(책 전시, 포스트잇 감상평)은 디자인 및 프론트엔드 구현에 많은 시간과 노력이 필요할 수 있습니다.
+    *   **데이터 모델**: 현재 초안은 기능 구현에 필요한 모든 데이터를 담기에는 부족합니다. 상세한 데이터 모델 설계가 필수적입니다.
+
+**2. 진행 계획 (단계별 접근):**
+
+제안하신 기능들을 모두 한 번에 구현하기보다는, 핵심 기능을 먼저 개발하여 MVP를 완성하고 점진적으로 확장하는 것을 추천합니다.
+
+*   **Phase 1: 핵심 MVP 구축 (약 1~2개월)**
+    *   **프로젝트 초기 설정**: SvelteKit 프로젝트 생성, 기본 라우팅 설정.
+    *   **데이터베이스 설정**: SQLite를 사용하여 개발 편의성 확보. (추후 PostgreSQL로 마이그레이션 고려)
+    *   **사용자 관리**: 관리자에 의한 수동 회원 생성 (임시 비밀번호), 로그인, 비밀번호 변경, 회원 고유 컬러 설정 기능 구현.
+    *   **책 관리**:
+        *   책 정보 수동 입력 (제목, 저자, 출판사, 출판일).
+        *   월별 선정 도서 지정 및 메인 페이지에 목록 표시 (간단한 리스트 형태).
+    *   **감상평 관리**:
+        *   책별 감상평 작성, 수정, 삭제, 조회 기능 (기본 텍스트 에디터).
+        *   회원별 컬러를 이용한 감상평 표시.
+    *   **모임 활동 기록**: 모임 날짜, 토론 주제, 참석자 목록 기록 기능.
+    *   **기본 UI/UX**: 간단한 내비게이션, 메인 페이지, 책 상세 페이지, 감상평 작성 페이지 등 기능 위주로 구현.
+
+*   **Phase 2: 기능 확장 및 UI/UX 개선 (약 2~3개월)**
+    *   **책 정보 자동화**: 온라인 서점(네이버/교보문고) 연동을 통한 책 정보(ISBN, 표지 이미지 등) 자동 가져오기 기능 구현 (웹 스크래핑 또는 API 활용).
+    *   **책 제안 및 투표**: '읽어볼만한 책' 제안, 투표, 다음 달 책 선정 기능.
+    *   **고급 감상평 기능**:
+        *   리치 텍스트 에디터 도입 (인용 기능 포함).
+        *   Good/Bad 및 한줄평 기능 추가.
+        *   개인 독서 메모 기능 (여러 번 감상평 작성).
+        *   회원별 미니 블로그 페이지 구현.
+        *   포스트잇/노트 형태의 감상평 시각화.
+    *   **모임 계획 도구**: 모임 날짜/장소 투표 시스템, 네이버 지도 API 연동.
+    *   **갤러리**: 이미지/영상 업로드 및 조회 기능, 모임 기록과의 연동.
+    *   **고급 UI/UX**: 메인 페이지 책 전시 (잡지 스탠드/베스트셀러 매대 형태), 그림자/그래픽 요소 추가.
+
+*   **Phase 3: 고도화 및 장기 계획 (지속)**
+    *   **성능 최적화**: SQLite에서 PostgreSQL로 데이터베이스 마이그레이션 (필요시).
+    *   **부가 기능**: 알림 기능, 고급 검색 및 필터링, 포인트/랭크 시스템.
+    *   **모바일 최적화**: 반응형 웹 디자인 강화.
+    *   **Rust 백엔드 전환**: 필요성과 시기를 판단하여 계획 수립 및 실행.
+    *   **고급 기능**: OCR을 통한 인용, 모임 녹음/요약 등 (우선순위 낮음).
+
 ## 2. 주요 기능
 
 - **월별 독서 기록**: 매월 선정한 책과 관련 정보를 기록.
@@ -47,27 +99,109 @@
 - **컨텐츠 스토리지**: 로컬 ssd. 향후 개인 onedrive도 사용할 수도 있음
 - **향후 확장**: Rust 서버 구축 고려
 
-## 4. 데이터 모델 (초안)
+## 4. 데이터 모델 (보완)
 
-- **책 (Book)**
-  - ID
-  - 제목
-  - 저자
-  - 출판사
-  - 출판일
-  - 월별 선정 여부 (예: 2025년 7월의 책)
-- **감상평 (Review)**
-  - ID
-  - 책 ID (Book ID)
-  - 작성자 (User ID)
-  - 내용
-  - 작성일
-- **모임 (Meeting)**
-  - ID
-  - 날짜
-  - 책 ID (Book ID)
-  - 토론 주제
-  - 참석자 목록
+- **User (회원)**
+  - `id` (PK, UUID 또는 Auto-increment)
+  - `username` (로그인 ID, Unique)
+  - `password_hash` (비밀번호 해시)
+  - `display_name` (표시 이름, 예: 닉네임)
+  - `unique_color` (회원 고유 컬러, Hex 코드 또는 미리 정의된 색상 ID)
+  - `is_admin` (Boolean, 관리자 여부)
+  - `created_at` (생성 일시)
+  - `updated_at` (수정 일시)
+
+- **Book (책)**
+  - `id` (PK, UUID 또는 Auto-increment)
+  - `title` (제목)
+  - `author` (저자)
+  - `publisher` (출판사)
+  - `publication_date` (출판일)
+  - `isbn` (ISBN-10 또는 ISBN-13, Unique)
+  - `cover_image_url` (표지 이미지 URL)
+  - `description` (책 소개)
+  - `is_ebook_available` (Boolean, EBOOK 존재 여부)
+  - `created_at`
+  - `updated_at`
+
+- **MonthlyBookSelection (월별 선정 도서)** - **새로운 엔티티**
+  - `id` (PK)
+  - `book_id` (FK to Book.id)
+  - `year` (선정 연도)
+  - `month` (선정 월)
+  - `selected_at` (선정 일시)
+  - `meeting_id` (FK to Meeting.id, 해당 월의 모임과 연결, Optional)
+
+- **BookSuggestion (읽어볼만한 책 제안)** - **새로운 엔티티**
+  - `id` (PK)
+  - `book_id` (FK to Book.id)
+  - `suggested_by_user_id` (FK to User.id)
+  - `suggested_at` (제안 일시)
+  - `status` (예: 'pending', 'selected', 'rejected')
+
+- **BookVote (책 투표)** - **새로운 엔티티**
+  - `id` (PK)
+  - `book_suggestion_id` (FK to BookSuggestion.id)
+  - `user_id` (FK to User.id)
+  - `voted_at` (투표 일시)
+
+- **Review (감상평)**
+  - `id` (PK, UUID 또는 Auto-increment)
+  - `book_id` (FK to Book.id)
+  - `user_id` (FK to User.id)
+  - `content` (감상문 본문, Rich Text 형식)
+  - `one_liner` (한줄평, Optional)
+  - `good_points` (Good 내용, Optional)
+  - `bad_points` (Bad 내용, Optional)
+  - `created_at`
+  - `updated_at`
+  - `is_personal_note` (Boolean, 개인 독서 메모 여부)
+
+- **Meeting (모임)**
+  - `id` (PK, UUID 또는 Auto-increment)
+  - `meeting_date` (모임 날짜)
+  - `location` (장소)
+  - `discussion_topics` (토론 주제, Text 또는 JSON Array)
+  - `selected_book_id` (FK to Book.id, 해당 모임에서 다룬 책, Optional)
+  - `created_at`
+  - `updated_at`
+
+- **MeetingAttendee (모임 참석자)** - **새로운 엔티티 (Meeting과 User의 다대다 관계)**
+  - `meeting_id` (FK to Meeting.id)
+  - `user_id` (FK to User.id)
+  - `attended_at` (참석 일시, Optional)
+  - (PK는 `meeting_id`, `user_id`의 복합 키)
+
+- **GalleryItem (갤러리 항목)** - **새로운 엔티티**
+  - `id` (PK, UUID 또는 Auto-increment)
+  - `file_url` (이미지/영상 파일 경로)
+  - `caption` (설명, Optional)
+  - `uploaded_by_user_id` (FK to User.id)
+  - `meeting_id` (FK to Meeting.id, Optional, 어떤 모임과 관련된 사진인지)
+  - `uploaded_at` (업로드 일시)
+
+- **MeetingVote (모임 날짜/장소 투표)** - **새로운 엔티티**
+  - `id` (PK)
+  - `title` (투표 제목, 예: "8월 모임 날짜 투표")
+  - `description` (투표 설명, Optional)
+  - `created_by_user_id` (FK to User.id)
+  - `is_active` (Boolean, 투표 활성화 여부)
+  - `vote_type` (예: 'date', 'location')
+  - `created_at`
+  - `updated_at`
+
+- **MeetingVoteOption (모임 투표 옵션)** - **새로운 엔티티**
+  - `id` (PK)
+  - `meeting_vote_id` (FK to MeetingVote.id)
+  - `option_value` (예: '2025-08-15', '강남역 스터디룸')
+  - `created_at`
+
+- **UserMeetingVote (사용자 모임 투표)** - **새로운 엔티티**
+  - `id` (PK)
+  - `meeting_vote_option_id` (FK to MeetingVoteOption.id)
+  - `user_id` (FK to User.id)
+  - `voted_at` (투표 일시)
+  - (PK는 `meeting_vote_option_id`, `user_id`의 복합 키)
 
 ## 5. 사용자 시나리오 (초안)
 
